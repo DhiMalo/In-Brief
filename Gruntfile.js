@@ -1,8 +1,17 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+    
     concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['app/**/*.js'], ['lib/**/*.js'], ['app/**/*.js'], ['public/**/*.js'], ['*.js']
+        dest: 'dist/shortyconcat.js'
+      }
     },
 
     mochaTest: {
@@ -12,7 +21,7 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       }
-    },
+    }
 
     nodemon: {
       dev: {
@@ -21,6 +30,14 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+        options: {
+      banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+    },
+    dist: {
+        files: {
+          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
     },
 
     jshint: {
@@ -89,6 +106,10 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
+
+  grunt.registerTask('concat1', [
+    'concat'
+  ]);
 
   grunt.registerTask('test', [
     'mochaTest'
