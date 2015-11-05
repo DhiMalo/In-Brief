@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['app/**/*.js'], ['lib/**/*.js'], ['app/**/*.js'], ['public/**/*.js'], ['*.js']
+        src: ['app/**/*.js', 'lib/**/*.js', 'public/**/*.js'],//do we need the public files??,
         dest: 'dist/shortyconcat.js'
       }
     },
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       }
-    }
+    },
 
     nodemon: {
       dev: {
@@ -35,60 +35,79 @@ module.exports = function(grunt) {
     },
     dist: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+          'dist/uglified.min.js': ['dist/shortyconcat.js']
         }
       }
     },
 
-    jshint: {
-      files: [
-        // Add filespec list here
-      ],
-      options: {
-        force: 'true',
-        jshintrc: '.jshintrc',
-        ignores: [
-          'public/lib/**/*.js',
-          'public/dist/**/*.js'
-        ]
-      }
-    },
+    // jshint: {
+    //   files: [
+    //     // Add filespec list here
+    //   ],
+    //   options: {
+    //     force: 'true',
+    //     jshintrc: '.jshintrc',
+    //     ignores: [
+    //       'public/lib/**/*.js',
+    //       'public/dist/**/*.js'
+    //     ]
+    //   }
+    // },
 
     cssmin: {
         // Add filespec list here
-    },
+      // target: {
+      //   files: [{
+      //     expand: true,
+      //     cwd: 'release/css',
+      //     src: ['*.css'],
+      //     dest: 'release/css',
+      //     ext: '.min.css'
+      //   }]
+      // }
 
-    watch: {
-      scripts: {
-        files: [
-          'public/client/**/*.js',
-          'public/lib/**/*.js',
-        ],
-        tasks: [
-          'concat',
-          'uglify'
-        ]
+      options: {
+        shorthandCompacting: false,
+        roundingPrecision: -1
       },
-      css: {
-        files: 'public/*.css',
-        tasks: ['cssmin']
+      target: {
+        files: {
+          'dist/minified.css': ['/public/styles.css']
+        }
       }
     },
 
-    shell: {
-      prodServer: {
-      }
-    },
+    // watch: {
+    //   scripts: {
+    //     files: [
+    //       'public/client/**/*.js',
+    //       'public/lib/**/*.js',
+    //     ],
+    //     tasks: [
+    //       'concat',
+    //       'uglify'
+    //     ]
+    //   },
+    //   css: {
+    //     files: 'public/*.css',
+    //     tasks: ['cssmin']
+    //   }
+    // },
+
+    // shell: {
+    //   prodServer: {
+    //   }
+    // },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-contrib-concat'); //saved this dependency.
+  grunt.loadNpmTasks('grunt-contrib-cssmin'); //saved this dependency.
+  grunt.loadNpmTasks('grunt-mocha-test'); //saved this dependency.
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-nodemon'); //saved this dependency.
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -109,6 +128,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('concat1', [
     'concat'
+  ]); 
+  
+  grunt.registerTask('uglify1', [
+    'uglify'
+  ]);
+
+  grunt.registerTask('cssmin1', [
+    'cssmin'
   ]);
 
   grunt.registerTask('test', [
