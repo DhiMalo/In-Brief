@@ -64,36 +64,36 @@ module.exports = function(grunt) {
       }
     },
 
-    // watch: {
-    //   scripts: {
-    //     files: [
-    //       'public/client/**/*.js',
-    //       'public/lib/**/*.js',
-    //     ],
-    //     tasks: [
-    //       'concat',
-    //       'uglify'
-    //     ]
-    //   },
-    //   css: {
-    //     files: 'public/*.css',
-    //     tasks: ['cssmin']
-    //   }
-    // },
+    watch: {
+      scripts: {
+        files: [
+          'public/client/**/*.js',
+          'public/lib/**/*.js',
+        ],
+        tasks: [
+          'concat',
+          'uglify'
+        ]
+      },
+      css: {
+        files: 'public/style.css',
+        tasks: ['cssmin']
+      }
+    },
 
-    // shell: {
-    //   prodServer: {
-    //   }
-    // },
+    shell: {
+      prodServer: {
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-jshint'); //saved this dependency.
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-watch'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-concat'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-cssmin'); //saved this dependency.
   grunt.loadNpmTasks('grunt-mocha-test'); //saved this dependency.
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-shell'); //saved this dependency.
   grunt.loadNpmTasks('grunt-nodemon'); //saved this dependency.
 
   grunt.registerTask('server-dev', function (target) {
@@ -106,7 +106,7 @@ module.exports = function(grunt) {
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
-    grunt.task.run([ 'watch' ]);
+    grunt.task.run([ 'watch' ]); // Working theory of this task: USE WATCH FOR A LIVESTREAM OF SERVER ACTIVITY VIA NODEMON
   });
 
   ////////////////////////////////////////////////////
@@ -116,16 +116,20 @@ module.exports = function(grunt) {
   grunt.registerTask('concat1', [
     'concat'
   ]); 
+
+  grunt.registerTask('watch', [
+    'watch'
+  ]); 
   
-  grunt.registerTask('uglify1', [
+  grunt.registerTask('uglify', [
     'uglify'
   ]);
 
-  grunt.registerTask('cssmin1', [
+  grunt.registerTask('cssmin', [
     'cssmin'
   ]);
 
-  grunt.registerTask('jshint1', [
+  grunt.registerTask('jshint', [
     'jshint'
   ]);
 
