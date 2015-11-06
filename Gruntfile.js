@@ -40,39 +40,26 @@ module.exports = function(grunt) {
       }
     },
 
-    // jshint: {
-    //   files: [
-    //     // Add filespec list here
-    //   ],
-    //   options: {
-    //     force: 'true',
-    //     jshintrc: '.jshintrc',
-    //     ignores: [
-    //       'public/lib/**/*.js',
-    //       'public/dist/**/*.js'
-    //     ]
-    //   }
-    // },
+    jshint: {
+      files: [
+        '**/*.js' 
+      ],
+      options: {
+        force: 'true',
+        jshintrc: '.jshintrc',
+        ignores: [
+          'public/lib/**/*.js',
+          'public/dist/**/*.js',
+          'dist/**/*.js', //ignore the concatenated/uglified files.
+          'node_modules/**/*.js'
+        ]
+      }
+    },
 
     cssmin: {
-        // Add filespec list here
-      // target: {
-      //   files: [{
-      //     expand: true,
-      //     cwd: 'release/css',
-      //     src: ['*.css'],
-      //     dest: 'release/css',
-      //     ext: '.min.css'
-      //   }]
-      // }
-
-      options: {
-        shorthandCompacting: false,
-        roundingPrecision: -1
-      },
-      target: {
+       dist: {
         files: {
-          'dist/minified.css': ['/public/styles.css']
+          'dist/cssMinFile.min.css': ['public/style.css']
         }
       }
     },
@@ -101,7 +88,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify'); //saved this dependency.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-jshint'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat'); //saved this dependency.
   grunt.loadNpmTasks('grunt-contrib-cssmin'); //saved this dependency.
@@ -136,6 +123,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('cssmin1', [
     'cssmin'
+  ]);
+
+  grunt.registerTask('jshint1', [
+    'jshint'
   ]);
 
   grunt.registerTask('test', [
