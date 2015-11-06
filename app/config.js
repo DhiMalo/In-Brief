@@ -3,9 +3,17 @@ var Bookshelf = require('bookshelf');
 var path = require('path');
 var Schema = mongoose.Schema;
 
+mongoose.connect('mongodb://localhost/myapp');
 
-var db = mongoose.connect('mongodb://localhost/myapp');
 
+module.exports = db;
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  console.log('MongoDB has successfully connected!!');
+});
+  // yay!
 // var db = Bookshelf.initialize({
 //   client: 'sqlite3',
 //   connection: {
@@ -18,21 +26,6 @@ var db = mongoose.connect('mongodb://localhost/myapp');
 //   }
 // });
 
-var urlSchema = new Schema ({
-  url: String,
-  base_url: String,
-  code: String,
-  title: String,
-  visits: Number 
-});
-
-
-var userSchema = new Schema ({
-  username: {type: String, unique: true},
-  password: String,
-});
-
-module.exports = db;
 
 // db.knex.schema.hasTable('urls').then(function(exists) {
 //   if (!exists) {
@@ -62,7 +55,6 @@ module.exports = db;
 //     });
 //   }
 // });
-
 
 
 
